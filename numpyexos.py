@@ -64,6 +64,8 @@ import re
 # Q22
 donnees = np.genfromtxt("donnees/Numpy_exercice.csv",
                         delimiter=";",
+                        invalid_raise=False,
+                        filling_values="",
                         usecols=np.arange(0, 18),
                         encoding='UTF-8',
                         skip_header=1, dtype=str)
@@ -161,10 +163,13 @@ print("{0:9.2f} {1:9.2f} {2:9.2f}".format(sommeFr, moyenneFr, maxFr))
 
 # Q43
 # Penser à utiliser \b qui dénote chaque changement de mot ou de séparateur
-regex_year = re.compile("-20\d\d")
+# site très utile pour tester : https://regex101.com/
+# regex_year = re.compile("-20\d\d")
+regex_year = re.compile(r"\b(20\d\d)")
 years = []
 for cours in nouvellesDonnees[:, 0]:
-    temp = [x[1:] for x in regex_year.findall(cours)]
+    # temp = [x[1:] for x in regex_year.findall(cours)]
+    temp = regex_year.findall(cours)
     if len(temp) == 0:
         years.append("")
     elif len(temp) == 1:
@@ -176,11 +181,15 @@ print(col1modif[10575:])
 
 # Q44
 # on ne prend que les 6000 premieres lignes pour éviter les bugs dans les subventions
-limit = 6000
+# limit = 10000
+limit = nouvellesDonnees.shape[0]
 pays = np.unique(nouvellesDonnees[:, 2])
 dictPays = dict(zip(pays, np.zeros(pays.size)))
 for elem in nouvellesDonnees[0:limit]:
-    dictPays[elem[2]] += float(elem[-2])
+    try:
+        dictPays[elem[2]] += float(elem[-2])
+    except ValueError:
+        pass
 print(dictPays)
 
 # Q45
