@@ -73,8 +73,8 @@ mask = [(x == 0 or x >= 11) for x in range(18)]
 nouvellesDonnees = donnees[:, mask]
 
 # Q23
-# premierExtraitDonnees = nouvellesDonnees[0:5]
-# print(premierExtraitDonnees)
+premierExtraitDonnees = nouvellesDonnees[0:5]
+print(premierExtraitDonnees)
 
 # Q24
 # deuxiemeValeur = premierExtraitDonnees[0, 1]
